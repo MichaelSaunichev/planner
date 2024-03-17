@@ -30,7 +30,7 @@ const Login = ({ login, onSwitchToRegister }) => {
   };
 
   return (
-    <div className="mx-auto mt-8 p-8 bg-gray-200 rounded-md w-[500px] h-[500px]">
+    <div className="mx-auto mt-8 p-8 bg-gray-200 rounded-md w-[500px] h-[425px]">
       <h2 className="text-2xl font-bold mb-4">Login</h2>
       <form onSubmit={handleLogin}>
         <label className="block mb-4">

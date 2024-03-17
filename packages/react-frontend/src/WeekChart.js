@@ -81,13 +81,66 @@ const WeekChart = () => {
     async function getTasksForWeek(weekDates, currentDate, userId) {
         try {
             const fetchedWeekTasks = await fetchWeekTasks(userId, currentDate);
+
+            // Convert task due dates to local time
+            fetchedWeekTasks.forEach((day) => {
+                day.tasks.forEach((task) => {
+                    console.log("Original due date:", task.task_due_date);
+                    task.task_due_date = new Date(task.task_due_date).toLocaleString();
+                    console.log("Local due date:", task.task_due_date);
+                });
+            });
+
             const tasksForWeek = weekDates.map((date) => {
-                const jsDay = date.getDay() + 2; // Adjust JS day to match your day IDs
+                const jsDay = date.getDay() + 1; // Adjust JS day to match day IDs
                 const dayTasks =
-                    fetchedWeekTasks.find((day) => day._id === jsDay)?.tasks ||
-                    [];
+                    fetchedWeekTasks.find((day) => day._id === jsDay)?.tasks || [];
+
+                
                 return { date, tasks: dayTasks };
             });
+    
+            // Move tasks to the correct day if they are in the wrong day
+            tasksForWeek.forEach(day => {
+                day.tasks.forEach(task => {
+                    const dueDate = new Date(task.task_due_date);
+                    const taskDay = dueDate.getDay() + 1; // Adjust JS day to match day IDs
+                    if (day.date.getDay() + 1 !== taskDay) {
+                        // Remove task from current day and add it to the correct day
+                        const correctDay = tasksForWeek.find(d => d.date.getDay() + 1 === taskDay);
+                        if (correctDay) {
+                            correctDay.tasks.push(task);
+                            day.tasks.splice(day.tasks.indexOf(task), 1);
+                        }
+                    }
+                }); 
+            });
+            
+    
+            // Sort tasks
+            tasksForWeek.forEach(day => {
+                day.tasks.sort((a, b) => new Date(a.task_due_date) - new Date(b.task_due_date));
+            });
+
+            // Get the start and end dates
+            const weekStart = startOfWeek(weekDates[0]);
+            const weekEnd = new Date(weekStart);
+            weekEnd.setDate(weekEnd.getDate() + 7);
+
+            // Filter out tasks whose due dates are outside of the current week
+            tasksForWeek.forEach(day => {
+                day.tasks = day.tasks.filter(task => {
+                    const taskDueDate = new Date(task.task_due_date);
+                    const isWithinWeek = weekDates.some(date => {
+                        const currentDate = new Date(date);
+                        return taskDueDate.getFullYear() === currentDate.getFullYear() &&
+                            taskDueDate.getMonth() === currentDate.getMonth() &&
+                            taskDueDate.getDate() === currentDate.getDate();
+                    });
+                    return isWithinWeek;
+                });
+            });
+
             return tasksForWeek;
         } catch (error) {
             console.error("Error in getTasksForWeek:", error);
@@ -116,13 +169,29 @@ const WeekChart = () => {
         try {
             const fetchedDoneTasks = await fetchDoneTasks(userId, currentDate);
             const doneTasks = weekDates.map((date) => {
-                const jsDay = date.getDay() + 1; // Adjust JS day to match your day IDs
+                const jsDay = date.getDay() + 1; // Adjust JS day to match day IDs
                 const dayDoneTasks =
-                    fetchedDoneTasks.find((day) => day._id === jsDay)?.tasks ||
-                    [];
+                    fetchedDoneTasks.find((day) => day._id === jsDay)?.tasks || [];
                 return { date, tasks: dayDoneTasks };
             });
-
+    
+            // Filter out tasks whose due dates are outside of the current week
+            doneTasks.forEach(day => {
+                day.tasks = day.tasks.filter(task => {
+                    const taskDueDate = new Date(task.task_due_date);
+                    const isWithinWeek = weekDates.some(date => {
+                        const currentDate = new Date(date);
+                        return taskDueDate.getFullYear() === currentDate.getFullYear() &&
+                            taskDueDate.getMonth() === currentDate.getMonth() &&
+                            taskDueDate.getDate() === currentDate.getDate();
+                    });
+                    if (!isWithinWeek) {
+                        console.log(`Removing task '${task.task_name}' due on '${task.task_due_date}' from ${day.date.toLocaleDateString()}`);
+                    }
+                    return isWithinWeek;
+                });
+            });
+    
             return doneTasks;
         } catch (error) {
             console.error("Error in getDoneTasks:", error);

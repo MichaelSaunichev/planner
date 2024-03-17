@@ -151,22 +151,6 @@ const AddExperienceModal: React.FC<AddExperienceModalProps> = ({
                                             required
                                         />
                                         <label
-                                            htmlFor="userid"
-                                            className="block mb-2 text-sm font-medium text-gray-900"
-                                        >
-                                            User Id
-                                        </label>
-                                        <input
-                                            type="text"
-                                            name="userid"
-                                            value={task.userid}
-                                            onChange={handleChange}
-                                            id="userid"
-                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                            placeholder="Type userid"
-                                            required
-                                        />
-                                        <label
                                             htmlFor="tag"
                                             className="block mb-2 text-sm font-medium text-gray-900"
                                         >
@@ -179,9 +163,9 @@ const AddExperienceModal: React.FC<AddExperienceModalProps> = ({
                                                     set_due_date(date)
                                                 }
                                                 showTimeSelect
-                                                timeFormat="HH:mm"
+                                                timeFormat="h:mm aa"
                                                 timeIntervals={15}
-                                                timeCaption="time"
+                                                timeCaption="Time"
                                                 dateFormat="YYYY-MM-dd h:mm aa"
                                                 className="bg-gray-50"
                                                 data-testid="mock-datepicker"

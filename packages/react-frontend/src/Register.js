@@ -6,12 +6,14 @@ const Register = ({ register, onSwitchToLogin }) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordsMatch, setPasswordsMatch] = useState(true);
+  const [usernameAvailable, setUsernameAvailable] = useState(true);
 
   const handleRegister = (e) => {
     e.preventDefault();
+    setPasswordsMatch(true);
+    setUsernameAvailable(true);
     // Check if passwords match
     if (password === confirmPassword) {
-      setPasswordsMatch(true);
 
       // Call the backend to add the user
       fetch(`${process.env.REACT_APP_API_URL}/users`, {
@@ -29,15 +31,17 @@ const Register = ({ register, onSwitchToLogin }) => {
           if (response.ok) {
             return response.json();
           } else {
-            throw new Error('Failed to add user: ' + response.statusText);
+            throw new Error(response.statusText);
           }
         })
         .then((userData) => {
           register(userData._id);
         })
         .catch(error => {
-          console.error('Error adding user:', error);
-        });}
+          setUsernameAvailable(false);
+          console.error(error.message);
+        });
+    }
     else {
       setPasswordsMatch(false);
     }
@@ -54,7 +58,6 @@ const Register = ({ register, onSwitchToLogin }) => {
             value={name}
             onChange={(e) => {
               setName(e.target.value);
-              // console.log('Name changed:', e.target.value);
             }}
             className="w-full h-12 px-3 border rounded-md"
           />
@@ -99,6 +102,9 @@ const Register = ({ register, onSwitchToLogin }) => {
         </label>
         {!passwordsMatch && (
           <p className="text-red-500 mb-4">Passwords do not match. Please try again.</p>
+        )}
+        {!usernameAvailable && (
+          <p className="text-red-500 mb-4">Try another username.</p>
         )}
         <button type="submit" className="w-full h-12 bg-blue-500 text-white rounded-md">
           Register

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useNavigate, Navigate } from 'react-router-dom';
 import Header from './components/header';
 import Login from './Login';
 import Register from './Register';
@@ -16,10 +16,20 @@ function App() {
     const isAuthenticated = JSON.parse(localStorage.getItem('authenticated'));
     if (id && isAuthenticated) {
       setUserId(id);
-      setAuthenticated(true)
     }
-    console.log(userId)
   }, []);
+  
+  useEffect(() => {
+    if (userId) {
+      setAuthenticated(true);
+    }
+  }, [userId]);
+
+  useEffect(() => {
+    if (userId && authenticated) {
+      navigate('/WeekChart', { state: { userId: userId } });
+    }
+  }, [userId, authenticated, navigate]);
 
   useEffect(() => {
     localStorage.setItem('userId', JSON.stringify(userId));
@@ -53,7 +63,6 @@ function App() {
     setIsLoginMode(true);
     setUserId(null);
     navigate('/');
-    console.log("hitting the function");
   };
 
   return (
@@ -73,6 +82,7 @@ function App() {
                 <Route path={`/WeekChart/*`} element={<WeekChart />} />
               </>
             )}
+
           </Routes>
         </div>
       </div>

@@ -73,11 +73,11 @@ function getWeekTasksTrue(userId, currentDate){
     const startOfWeek = new Date(currentDate);
   
    // console.log(startOfWeek.getDay())
-    startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getUTCDay()); // Set to the first day of the week (Sunday)
+    startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getUTCDay() - 1); // Set to the first day of the week (Sunday)
 
     // Calculate the end of the week (7 days later)
     const endOfWeek = new Date(startOfWeek);
-    endOfWeek.setDate(startOfWeek.getDate() + 7);
+    endOfWeek.setDate(startOfWeek.getDate() + 9);
 
     // Define the aggregation pipeline
     const pipeline = [
@@ -115,11 +115,14 @@ function getWeekTasksFalse(userId, currentDate){
   const startOfWeek = new Date(currentDate);
 
  // console.log(startOfWeek.getDay())
-  startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getUTCDay()); // Set to the first day of the week (Sunday)
+  startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getUTCDay() - 1); // Set to the first day of the week (Sunday)
 
   // Calculate the end of the week (7 days later)
   const endOfWeek = new Date(startOfWeek);
-  endOfWeek.setDate(startOfWeek.getDate() + 7);
+  endOfWeek.setDate(startOfWeek.getDate() + 9);
+
+  console.log("Start of the week:", startOfWeek.toISOString());
+  console.log("End of the week:", endOfWeek.toISOString());
 
   // Define the aggregation pipeline
   const pipeline = [
@@ -142,7 +145,19 @@ function getWeekTasksFalse(userId, currentDate){
   ];
 
   promise = taskModel.aggregate(pipeline);
-  return promise
+
+  promise.then(result => {
+    // Log the result of the promise
+    console.log("Promise result:");
+    result.forEach(item => {
+        console.log(JSON.stringify(item, null, 2));
+    });
+    }).catch(error => {
+        // Log any errors that occur during promise execution
+        console.error("Promise error:", error);
+    });
+  
+  return promise;
 }
 
 function findTaskByUserId(id) {

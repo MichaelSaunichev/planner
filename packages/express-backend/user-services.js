@@ -55,17 +55,24 @@ function deleteUser(id){
 }
 
 function addUser(user) {
-  const userToAdd = new userModel(user);
-  const promise = userToAdd.save();
-  
-  return promise
+  // Check if the user already exists
+  return userModel.findOne({ username: user.username })
+    .then(existingUser => {
+      if (existingUser) {
+        // User already exists, handle accordingly
+        throw new Error('User already exists');
+      } else {
+        // User does not exist, proceed with adding the new user
+        const userToAdd = new userModel(user);
+        return userToAdd.save();
+      }
+    })
     .then(result => {
-      // console.log('User added successfully:', result);
       return result;
     })
     .catch(error => {
-      console.error('Error adding user:', error);
-      throw error; // Rethrow the error to be caught in the higher level promise chain
+      console.error(error);
+      throw error;
     });
 }
 
