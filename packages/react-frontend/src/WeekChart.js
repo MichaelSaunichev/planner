@@ -318,7 +318,7 @@ const WeekChart = () => {
                         return (
                             <div
                                 key={index}
-                                className={`flex-1 min-w-52 py-2 ${
+                                className={`flex-1 min-w-40 py-2 ${
                                     index !== 6 ? "border-r" : ""
                                 }`}
                             >
