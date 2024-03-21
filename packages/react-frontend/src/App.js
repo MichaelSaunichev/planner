@@ -75,17 +75,14 @@ function App() {
   };
 
   const switchToRegister = () => {
-    fetchHealth(0);
     setIsLoginMode(false);
   };
 
   const switchToLogin = () => {
-    fetchHealth(0);
     setIsLoginMode(true);
   };
 
   const handleSignOut = () => {
-    fetchHealth(0);
     setAuthenticated(false);
     setIsLoginMode(true);
     setUserId(null);
@@ -93,13 +90,13 @@ function App() {
   };
 
   return (
-    
-      <div className="App">
-              <Header
-                handleSignOut={handleSignOut}
-                serverStatus={serverStatus}
-                databaseStatus={databaseStatus}
-              />
+
+    <div className="App">
+        <Header
+          handleSignOut={handleSignOut}
+          serverStatus={serverStatus}
+          databaseStatus={databaseStatus}
+        />
         <div className="App-body mt-10">
           <Routes>
             {!authenticated ? (

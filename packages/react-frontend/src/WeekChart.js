@@ -215,6 +215,7 @@ const WeekChart = ({ fetchHealth }) => {
     }
 
     async function setTaskCompleteFalse(taskId) {
+        fetchHealth(0);
         const url = `${process.env.REACT_APP_API_URL}/tasks/false?taskid=${taskId}`;
         try {
             const response = await fetch(url, { method: "PUT" });
@@ -246,6 +247,7 @@ const WeekChart = ({ fetchHealth }) => {
     };
 
     const handleTaskCompletion = async (taskId) => {
+        fetchHealth(0);
         const taskIsDone = doneTasks.some((day) => day.tasks.some((task) => task._id === taskId));
         try {
             if (taskIsDone) {
@@ -265,7 +267,7 @@ const WeekChart = ({ fetchHealth }) => {
 
     return (
         <>
-            <div className="bg-white px-4 max-w lg:mx-auto lg:px-8">
+            <div className="bg-white px-4 max-w lg:mx-auto lg:px-8" >
                 <div className="flex flex-col mx-12">
                     <div className="flex flex-row space-x-10">
                         <p className="text-4xl font-bold text-gray-800">
@@ -275,7 +277,6 @@ const WeekChart = ({ fetchHealth }) => {
                             type="button"
                             className="-mt-1 py-3 px-8 text-md font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100"
                             onClick={() => {
-                                fetchHealth(0);
                                 setShowModal(true);
                             }}
                         >
@@ -288,10 +289,11 @@ const WeekChart = ({ fetchHealth }) => {
                         setShowModal={setShowModal}
                         reloadWeek={updateWeek}
                         userId={tempU}
+                        fetchHealth={fetchHealth}
                     />
 
                     <div className="flex space-x-1 mt-4">
-                        <GoArrowLeft size={"30px"} onClick={() => { goToPreviousWeek(); fetchHealth(0); }} />
+                        <GoArrowLeft size={"30px"} onClick={goToPreviousWeek} />
                         <button
                             type="button"
                             className="-mt-1 px-4 text-sm text-gray-900 focus:outline-none bg-white rounded-md border border-gray-200 hover:bg-gray-100"
@@ -299,7 +301,7 @@ const WeekChart = ({ fetchHealth }) => {
                             Today
                         </button>
 
-                        <GoArrowRight size={"30px"} onClick={() => { goToNextWeek(); fetchHealth(0); }} />
+                        <GoArrowRight size={"30px"} onClick={goToNextWeek} />
                     </div>
                 </div>
 

@@ -14,7 +14,8 @@ const AddExperienceModal: React.FC<AddExperienceModalProps> = ({
     isOpen,
     setShowModal,
     reloadWeek,
-    userId
+    userId,
+    fetchHealth
 }) => {
     const [task, setTask] = useState({
         userid: userId,
@@ -37,11 +38,6 @@ const AddExperienceModal: React.FC<AddExperienceModalProps> = ({
         }));
     }
 
-    function handleDueDateChange(date) {
-        
-        set_due_date(formatDate(date));
-    }
-
     const processTags = (tags) => {
         if (Array.isArray(tags)) {
           return tags.map(tag => tag.trim()); 
@@ -55,11 +51,9 @@ const AddExperienceModal: React.FC<AddExperienceModalProps> = ({
       };
 
     async function submitForm(event) {
+        fetchHealth(0);
         event.preventDefault(); // Prevent the default form submission behavior
-        // console.log("Test");
         try {
-            console.log(task);
-            // Assuming your backend expects task details in JSON format
             const response = await fetch(`${process.env.REACT_APP_API_URL}/tasks`, {
                 method: "POST",
                 headers: {
@@ -73,7 +67,6 @@ const AddExperienceModal: React.FC<AddExperienceModalProps> = ({
             });
 
             if (response.ok) {
-                // Task successfully added to the backend and, consequently, MongoDB Atlas
                 setTask({
                     userid: userId,
                     task_name: "",
@@ -85,12 +78,9 @@ const AddExperienceModal: React.FC<AddExperienceModalProps> = ({
                 setShowModal(false);
                 reloadWeek(new Date());
             } else {
-                //const errorText = await response.text(); // Or .json() if your backend sends a JSON response
                 console.error(
                     "Failed to add task. Status:",
                     response.status,
-                    //"Response:",
-                    //errorText
                 );
                 setTask({
                     userid: "",
@@ -172,28 +162,6 @@ const AddExperienceModal: React.FC<AddExperienceModalProps> = ({
                                             />
                                         </div>
                                     </div>
-                                    {/* <div className="col-span-2 sm:col-span-1">
-                                        <label
-                                            htmlFor="priority"
-                                            className="block mb-2 text-sm font-medium text-gray-900"
-                                        >
-                                            Priority
-                                        </label>
-                                        <select
-                                            id="priority"
-                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                        >
-                                            <option value="">
-                                                Select priority
-                                            </option>
-                                            <option value="low">Low</option>
-                                            <option value="moderate">
-                                                Moderate
-                                            </option>
-                                            <option value="high">High</option>
-                                            <option value="top">Top</option>
-                                        </select>
-                                    </div> */}
                                     <div className="col-span-2 sm:col-span-1">
                                         <label
                                             htmlFor="description"
@@ -231,9 +199,6 @@ const AddExperienceModal: React.FC<AddExperienceModalProps> = ({
                                 <button
                                     type="submit"
                                     className="py-2 px-8 text-md font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 "
-                                    onClick={() => {
-                                        setShowModal(true);
-                                    }}
                                 >
                                     Add Task
                                 </button>
