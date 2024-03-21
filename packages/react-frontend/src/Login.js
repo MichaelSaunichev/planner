@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 
-const Login = ({ login, onSwitchToRegister }) => {
+const Login = ({ login, onSwitchToRegister, fetchHealth }) => {
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [correctLogin, setCorrectLogin] = useState(true);
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    fetchHealth(0);
   
     // Make a request to the server to authenticate the user
     try {

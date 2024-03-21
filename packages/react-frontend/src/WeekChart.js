@@ -6,7 +6,7 @@ import TaskCard from "./components/TaskCard";
 import { formatDate } from "./libs/normalize";
 import { useParams, useLocation } from 'react-router-dom';
 
-const WeekChart = () => {
+const WeekChart = ({ fetchHealth }) => {
     const [showModal, setShowModal] = useState(false);
 
     // current week's data
@@ -275,6 +275,7 @@ const WeekChart = () => {
                             type="button"
                             className="-mt-1 py-3 px-8 text-md font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100"
                             onClick={() => {
+                                fetchHealth(0);
                                 setShowModal(true);
                             }}
                         >
@@ -290,7 +291,7 @@ const WeekChart = () => {
                     />
 
                     <div className="flex space-x-1 mt-4">
-                        <GoArrowLeft size={"30px"} onClick={goToPreviousWeek} />
+                        <GoArrowLeft size={"30px"} onClick={() => { goToPreviousWeek(); fetchHealth(0); }} />
                         <button
                             type="button"
                             className="-mt-1 px-4 text-sm text-gray-900 focus:outline-none bg-white rounded-md border border-gray-200 hover:bg-gray-100"
@@ -298,7 +299,7 @@ const WeekChart = () => {
                             Today
                         </button>
 
-                        <GoArrowRight size={"30px"} onClick={goToNextWeek} />
+                        <GoArrowRight size={"30px"} onClick={() => { goToNextWeek(); fetchHealth(0); }} />
                     </div>
                 </div>
 

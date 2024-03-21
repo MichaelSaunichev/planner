@@ -1,17 +1,24 @@
 import React, { useState } from 'react';
 
-const Register = ({ register, onSwitchToLogin }) => {
+const Register = ({ register, onSwitchToLogin, fetchHealth }) => {
   const [name, setName] = useState('');
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordsMatch, setPasswordsMatch] = useState(true);
   const [usernameAvailable, setUsernameAvailable] = useState(true);
+  const [lengthGood, setLengthGood] = useState(true);
 
   const handleRegister = (e) => {
     e.preventDefault();
+    fetchHealth(0);
+    setLengthGood(true);
     setPasswordsMatch(true);
     setUsernameAvailable(true);
+    if (name.length < 2 || userName.length < 2 || password.length < 2) {
+      setLengthGood(false);
+      return;
+    }
     // Check if passwords match
     if (password === confirmPassword) {
 
@@ -105,6 +112,9 @@ const Register = ({ register, onSwitchToLogin }) => {
         )}
         {!usernameAvailable && (
           <p className="text-red-500 mb-4">Try another username.</p>
+        )}
+        {!lengthGood && (
+          <p className="text-red-500 mb-4">Name, username and password must be at least 2 characters.</p>
         )}
         <button type="submit" className="w-full h-12 bg-blue-500 text-white rounded-md">
           Register
