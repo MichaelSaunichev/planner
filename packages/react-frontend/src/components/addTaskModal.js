@@ -103,8 +103,8 @@ const AddExperienceModal: React.FC<AddExperienceModalProps> = ({
                 onClick={() => setShowModal(false)}
             ></div>
 
-            <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-                <div className="relative w-auto my-6 mx-auto max-w-3xl">
+            <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none" style={{ overflow: 'hidden' }}>
+                <div className="relative w-auto my-6 mx-auto max-w-2x1 transform scale-75" style={{ marginTop: '30px' }}>
                     {/* Content */}
                     <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                         {/* Header */}
@@ -178,6 +178,7 @@ const AddExperienceModal: React.FC<AddExperienceModalProps> = ({
                                             className="lock p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                                         />
                                     </div>
+                                    {/**/}
                                     <div className="col-span-2">
                                         <label
                                             htmlFor="description"
