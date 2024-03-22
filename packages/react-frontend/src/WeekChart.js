@@ -269,8 +269,8 @@ const WeekChart = ({ fetchHealth }) => {
         <>
             <div className="bg-white px-4 max-w lg:mx-auto lg:px-8" >
                 <div className="flex flex-col mx-12">
-                    <div className="flex flex-row space-x-10">
-                        <p className="text-4xl font-bold text-gray-800">
+                    <div className="flex items-center justify-between">
+                        <p className="text-3xl font-bold text-gray-800">
                             {displayDates.length > 0 ? `${getMonthName(displayDates[0])} ${displayDates[0].getFullYear()}` : 'Loading...'}
                         </p>
                         <button
@@ -292,15 +292,11 @@ const WeekChart = ({ fetchHealth }) => {
                         fetchHealth={fetchHealth}
                     />
 
-                    <div className="flex space-x-1 mt-4">
+                    <div className="flex items-center space-x-1 mt-4">
                         <GoArrowLeft size={"30px"} onClick={goToPreviousWeek} />
-                        <button
-                            type="button"
-                            className="-mt-1 px-4 text-sm text-gray-900 focus:outline-none bg-white rounded-md border border-gray-200 hover:bg-gray-100"
-                        >
-                            Today
-                        </button>
-
+                        <span className="-mt-1 px-4 text-sm text-gray-900">{/* Replace button with span */}
+                            Week
+                        </span>
                         <GoArrowRight size={"30px"} onClick={goToNextWeek} />
                     </div>
                 </div>
@@ -331,7 +327,7 @@ const WeekChart = ({ fetchHealth }) => {
                                         day: "numeric",
                                     })}
                                 </p>
-                                <div className="overflow-y-auto h-96 space-y-5 justify-center items-center">
+                                <div className="overflow-y-auto h-64 space-y-5 justify-center items-center">
                                     {dayTasks.map((task) => (
                                         <TaskCard
                                             key={task._id}

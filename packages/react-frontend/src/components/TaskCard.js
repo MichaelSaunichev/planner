@@ -15,9 +15,9 @@ const TaskCard = ({
 }) => {
     // console.log(_id);
     return (
-        <div className="flex-1 max-w-sm p-4 bg-white border border-gray-100 rounded-lg shadow mx-2">
+        <div className="flex-1 max-w-sm p-2 bg-white border border-gray-100 rounded-lg shadow mx-2">
             <div className="flex justify-between">
-                <h6 className="mb-3 text-md font-semibold tracking-tight text-gray-900 truncate">
+                <h6 className="mb-1 text-sm font-semibold tracking-tight text-gray-900 truncate">
                     {task_name}
                 </h6>
                 <div className="-mt-1">
@@ -28,10 +28,10 @@ const TaskCard = ({
                 </div>
             </div>
 
-            <p className="mb-1 font-normal text-gray-500 truncate">
+            <p className="mb-1 text-xs font-normal text-gray-500 truncate">
                 {task_description}
             </p>
-            <p className="mb-4 text-sm text-gray-500">
+            <p className="mb-1 text-xs text-gray-500">
                 Due:&nbsp;
                 {new Date(task_due_date).toLocaleDateString("en-US", {
                     weekday: "short",
@@ -43,10 +43,10 @@ const TaskCard = ({
                 })}
             </p>
 
-            <div className="mb-2 text-sm font-medium">
+            <div className="mb-1 text-xs font-medium">
                 {task_tags?.map((tag, index) => {
                     return (
-                        <span className="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">
+                        <span className="bg-gray-100 text-gray-800 text-xxs font-medium me-1 px-1.5 py-0.5 rounded">
                             {tag}
                         </span>
                     );
