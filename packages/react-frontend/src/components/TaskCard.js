@@ -17,12 +17,18 @@ const TaskCard = ({
         setShowModal(!showModal);
     };
 
+    function calculateTotalCharacters(tags) {
+        const tagsLength = tags ? tags.reduce((total, tag) => total + tag.length, 0) : 0;
+        return tagsLength;
+    }
+
     return (
         <div className="flex-1 max-w-[200px] p-2 bg-white border border-gray-100 rounded-lg shadow mx-2">
             <div className="flex justify-between">
                 <div className="flex items-center">
                     <h6 className="mb-1 text-sm font-semibold tracking-tight text-gray-900 truncate">
-                        {task_name}
+                        {task_name.slice(0,8)}
+                        {task_name.length > 8 && "..."}
                     </h6>
                 </div>
                 <div className="flex items-center">
@@ -38,7 +44,6 @@ const TaskCard = ({
 
             <p className="mb-1 text-xs font-normal text-gray-500 truncate">
                 {task_description.slice(0, 100)}
-                {task_description.length > 100 && " ..."}
             </p>
             <p className="mb-1 text-xs text-gray-500">
                 Due:&nbsp;
@@ -53,18 +58,24 @@ const TaskCard = ({
             </p>
 
             <div className="mb-1 text-xs font-medium">
-                {task_tags?.map((tag, index) => {
-                    return (
-                        <span key={index} className="bg-gray-100 text-gray-800 text-xxs font-medium me-1 px-1.5 py-0.5 rounded">
-                            {tag}
-                        </span>
-                    );
-                })}
+                {
+                    (() => {
+                        return (
+                            <p className="mb-1 text-xs font-normal text-gray-500 truncate">
+                                {task_tags.map((tag, index) => (
+                                    <span key={index} className="inline-block bg-gray-100 rounded px-1 py-0.5 mr-1 text-xxs font-bold">
+                                        {tag}
+                                    </span>
+                                ))}
+                            </p>
+                        );
+                    })()
+                }
             </div>
 
             {showModal && (
-                <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center">
-                    <div className="bg-white p-4 max-w-[300px] min-w-[300px] rounded-lg shadow-lg">
+                <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-start overflow-y-auto">
+                    <div className="bg-white p-4 max-w-[300px] min-w-[300px] rounded-lg shadow-lg" style={{ marginTop: '70px' }}>
                         <h2 className="text-lg font-semibold mb-2">Task Details</h2>
                         <div className="mb-4">
                             <p className="font-medium text-gray-700 mb-1">Title:</p>
