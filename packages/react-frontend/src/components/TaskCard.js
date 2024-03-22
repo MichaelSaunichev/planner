@@ -18,7 +18,7 @@ const TaskCard = ({
     };
 
     return (
-        <div className="flex-1 max-w-[150px] p-2 bg-white border border-gray-100 rounded-lg shadow mx-2">
+        <div className="flex-1 max-w-[200px] p-2 bg-white border border-gray-100 rounded-lg shadow mx-2">
             <div className="flex justify-between">
                 <div className="flex items-center">
                     <h6 className="mb-1 text-sm font-semibold tracking-tight text-gray-900 truncate">
