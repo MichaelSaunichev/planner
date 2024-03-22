@@ -55,7 +55,7 @@ const Register = ({ register, onSwitchToLogin, fetchHealth }) => {
   };
 
   return (
-    <div className="mx-auto mt-8 p-8 bg-gray-200 rounded-md w-[500px] h-[600px] transform scale-75 origin-top">
+    <div className="mx-auto mt-8 p-8 bg-gray-200 rounded-md w-[500px] h-[600px] transform scale-90 origin-top">
       <h2 className="text-2xl font-bold mb-4">Register</h2>
       <form onSubmit={handleRegister}>
         <label className="block mb-4">

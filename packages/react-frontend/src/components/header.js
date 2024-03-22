@@ -11,7 +11,7 @@ const Header = ({ handleSignOut, serverStatus, databaseStatus }) => {
     <header className="bg-gray-400 py-4">
       <div className="container mx-auto flex justify-between items-center">
         <img src={logo} alt="Logo" className="h-10 w-auto" />
-        <div className="status-bar ml-4">
+        <div className="status-bar ml-4" style={{ minWidth: "1px" }}> {/* Adjust the width as needed */}
           {serverStatus === null && databaseStatus === null && (
             <>Connection Status: Pending </>
           )}
