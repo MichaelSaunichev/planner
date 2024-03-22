@@ -122,8 +122,8 @@ const AddExperienceModal: React.FC<AddExperienceModalProps> = ({
                         {/* Body */}
                         <div className="relative flex-auto">
                             <form className="px-12 py-8" onSubmit={submitForm}>
-                                <div className="grid gap-7 gap-x-12 mb-4 grid-cols-2">
-                                    <div className="col-span-2 space-y-4">
+                                <div className="grid gap-7 gap-x-12 mb-4 grid-cols-10">
+                                    <div className="col-span-10 space-y-4">
                                         <label
                                             htmlFor="task_name"
                                             className="block mb-2 text-sm font-medium text-gray-900"
@@ -161,8 +161,6 @@ const AddExperienceModal: React.FC<AddExperienceModalProps> = ({
                                                 data-testid="mock-datepicker"
                                             />
                                         </div>
-                                    </div>
-                                    <div className="col-span-2 sm:col-span-1">
                                         <label
                                             htmlFor="description"
                                             className="block mb-2 text-sm font-medium text-gray-900"
@@ -177,9 +175,6 @@ const AddExperienceModal: React.FC<AddExperienceModalProps> = ({
                                             placeholder="Task Tags (comma-separated)"
                                             className="lock p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                                         />
-                                    </div>
-                                    {/**/}
-                                    <div className="col-span-2">
                                         <label
                                             htmlFor="description"
                                             className="block mb-2 text-sm font-medium text-gray-900"
@@ -196,6 +191,7 @@ const AddExperienceModal: React.FC<AddExperienceModalProps> = ({
                                             placeholder="Describe the task"
                                         ></textarea>
                                     </div>
+                                    {/**/}
                                 </div>
                                 <button
                                     type="submit"
