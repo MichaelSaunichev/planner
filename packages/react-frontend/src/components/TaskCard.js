@@ -79,13 +79,13 @@ const TaskCard = ({
                         <h2 className="text-lg font-semibold mb-2">Task Details</h2>
                         <div className="mb-4">
                             <p className="font-medium text-gray-700 mb-1">Title:</p>
-                            <p className="text-sm text-gray-700 mb-2">{task_name}</p>
+                            <p className="text-sm text-gray-700 mb-2" style={{ wordWrap: 'break-word' }}>{task_name}</p>
                             <p className="font-medium text-gray-700 mb-1">Description:</p>
-                            <p className="text-sm text-gray-700 mb-2">{task_description}</p>
+                            <p className="text-sm text-gray-700 mb-2"style={{wordWrap: 'break-word'}}>{task_description}</p>
                             <p className="font-medium text-gray-700 mb-1">Tags:</p>
-                            <div>
+                            <div style={{ wordWrap: 'break-word' }}>
                                 {task_tags?.map((tag, index) => (
-                                    <span key={index} className="bg-gray-100 text-gray-800 text-xxs font-medium me-1 px-1.5 py-0.5 rounded">
+                                    <span key={index} className="bg-gray-100 text-gray-800 text-xxs font-medium me-1 px-1.5 py-0.5 rounded" style={{ wordWrap: 'break-word' }}>
                                         {tag}
                                     </span>
                                 ))}
