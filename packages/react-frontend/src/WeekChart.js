@@ -81,16 +81,16 @@ const WeekChart = ({ fetchHealth }) => {
     async function getTasksForWeek(weekDates, currentDate, userId) {
         try {
             const fetchedWeekTasks = await fetchWeekTasks(userId, currentDate);
-
+            //console.log("fetched:", fetchedWeekTasks);
             // Convert task due dates to local time
             fetchedWeekTasks.forEach((day) => {
                 day.tasks.forEach((task) => {
-                    console.log("Original due date:", task.task_due_date);
+                    //console.log("Original due date:", task.task_due_date);
                     task.task_due_date = new Date(task.task_due_date).toLocaleString();
-                    console.log("Local due date:", task.task_due_date);
+                    //console.log("Local due date:", task.task_due_date);
                 });
             });
-
+            console.log("week dates",weekDates);
             const tasksForWeek = weekDates.map((date) => {
                 const jsDay = date.getDay()+1; // Adjust JS day to match day IDs
                 const dayTasks =
@@ -104,7 +104,6 @@ const WeekChart = ({ fetchHealth }) => {
                     const dueDate = new Date(task.task_due_date);
                     const taskDay = dueDate.getDay() + 1; // Adjust JS day to match day IDs
                     if (day.date.getDay() + 1 !== taskDay) {
-                        // Task is assigned to the wrong day, move it to the correct day
                         const correctDay = tasksForWeek.find(d => d.date.getDay() + 1 === taskDay);
                         if (correctDay) {
                             tasksToMove.push(task); // Add task to tasksToMove array
@@ -123,7 +122,7 @@ const WeekChart = ({ fetchHealth }) => {
             });
             
     
-            // Sort tasks
+            // Sort tasks within days
             tasksForWeek.forEach(day => {
                 day.tasks.sort((a, b) => new Date(a.task_due_date) - new Date(b.task_due_date));
             });
@@ -299,11 +298,11 @@ const WeekChart = ({ fetchHealth }) => {
                     />
 
                     <div className="flex items-center space-x-1 mt-4">
-                        <GoArrowLeft size={"30px"} onClick={goToPreviousWeek} />
+                        <GoArrowLeft size={"30px"} onClick={() => {setCurrentWeek([]); setTimeout(goToPreviousWeek, 0)}} />
                         <span className="-mt-1 px-4 text-sm text-gray-900">{/* Replace button with span */}
                             Week
                         </span>
-                        <GoArrowRight size={"30px"} onClick={goToNextWeek} />
+                        <GoArrowRight size={"30px"} onClick={() => {setCurrentWeek([]); setTimeout(goToNextWeek, 0);}} />
                     </div>
                 </div>
 
