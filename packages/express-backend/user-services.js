@@ -11,6 +11,17 @@ mongoose
   })
   .catch((error) => console.log(error));
 
+async function checkMongoConnection() {
+  let mongoStatus;
+  try {
+    await mongoose.connection.db.admin().ping();
+    mongoStatus = 'ok';
+  } catch (error) {
+    console.error('MongoDB connection error:', error);
+    mongoStatus = 'error';
+  }
+  return mongoStatus;
+}
 
 function findUserById(id) {
     return userModel.findById(id);
@@ -77,6 +88,7 @@ function addUser(user) {
 }
 
 export default {
+  checkMongoConnection,
   getUsers,
   getUser,
   findUserById,
