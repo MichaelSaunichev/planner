@@ -92,28 +92,34 @@ const WeekChart = ({ fetchHealth }) => {
             });
 
             const tasksForWeek = weekDates.map((date) => {
-                const jsDay = date.getDay() + 1; // Adjust JS day to match day IDs
+                const jsDay = date.getDay()+1; // Adjust JS day to match day IDs
                 const dayTasks =
                     fetchedWeekTasks.find((day) => day._id === jsDay)?.tasks || [];
-
-                
                 return { date, tasks: dayTasks };
             });
     
-            // Move tasks to the correct day if they are in the wrong day
             tasksForWeek.forEach(day => {
+                const tasksToMove = []; // Store tasks to be moved to the correct day
                 day.tasks.forEach(task => {
                     const dueDate = new Date(task.task_due_date);
                     const taskDay = dueDate.getDay() + 1; // Adjust JS day to match day IDs
                     if (day.date.getDay() + 1 !== taskDay) {
-                        // Remove task from current day and add it to the correct day
+                        // Task is assigned to the wrong day, move it to the correct day
                         const correctDay = tasksForWeek.find(d => d.date.getDay() + 1 === taskDay);
                         if (correctDay) {
-                            correctDay.tasks.push(task);
-                            day.tasks.splice(day.tasks.indexOf(task), 1);
+                            tasksToMove.push(task); // Add task to tasksToMove array
                         }
                     }
-                }); 
+                });
+            
+                // Remove tasks from current day and add them to the correct day
+                tasksToMove.forEach(task => {
+                    day.tasks.splice(day.tasks.indexOf(task), 1); // Remove task from current day
+                    const correctDay = tasksForWeek.find(d => d.date.getDay() + 1 === (new Date(task.task_due_date)).getDay() + 1);
+                    if (correctDay) {
+                        correctDay.tasks.push(task); // Add task to correct day
+                    }
+                });
             });
             
     
